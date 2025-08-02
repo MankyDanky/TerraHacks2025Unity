@@ -4,7 +4,8 @@ using UnityEngine;
 using UnityEngine.Networking;
 using System.IO;
 using System;
-using TMPro; // Add TextMeshPro support
+using TMPro;
+using UnityEngine.UI; // Add TextMeshPro support
 
 [System.Serializable]
 public class WhisperResponse
@@ -59,7 +60,9 @@ public class WhisperManager : MonoBehaviour
     [SerializeField] private UnityEngine.UI.Button recordButton;
     [SerializeField] private TextMeshProUGUI statusText; // Changed to TextMeshPro
     [SerializeField] private TextMeshProUGUI transcriptionText; // Changed to TextMeshPro
-    
+
+    [SerializeField] Toggle[] stageCheckboxes = new Toggle[3];
+
     private AudioClip recordingClip;
     private bool isRecording = false;
     private string microphoneDevice;
@@ -73,8 +76,10 @@ public class WhisperManager : MonoBehaviour
     // Streaming events
     public System.Action<string> OnStreamingTextReceived;
     public System.Action OnStreamingComplete;
-
+    
     NPC npc;
+
+    bool done = false;
 
     void Start()
     {
@@ -103,7 +108,7 @@ public class WhisperManager : MonoBehaviour
         {
             StartRecording();
         }
-
+        
         npc = FindAnyObjectByType<NPC>();
     }
     
@@ -121,7 +126,7 @@ public class WhisperManager : MonoBehaviour
     
     public void StartRecording()
     {
-        if (isRecording) return;
+        if (isRecording || done) return;
         
         isRecording = true;
         recordingClip = Microphone.Start(microphoneDevice, false, maxRecordingLength, sampleRate);
@@ -285,6 +290,7 @@ public class WhisperManager : MonoBehaviour
                 
                 foreach (string line in lines)
                 {
+                    Debug.Log($"Streaming line: {line}");
                     if (line.StartsWith("data: "))
                     {
                         string jsonData = line.Substring(6); // Remove "data: "
@@ -309,7 +315,7 @@ public class WhisperManager : MonoBehaviour
         try
         {
             var data = JsonUtility.FromJson<StreamingData>(jsonData);
-            
+
             switch (data.type)
             {
                 case "transcript":
@@ -319,33 +325,60 @@ public class WhisperManager : MonoBehaviour
                         transcriptionText.text = $"You: {data.content}";
                     }
                     break;
-                    
+
                 case "text":
                     Debug.Log($"Received AI text: {data.content}");
                     OnStreamingTextReceived?.Invoke(data.content);
-                    
+
                     // Send to TTS if available
                     if (ttsManager != null)
                     {
                         ttsManager.SpeakText(data.content);
                     }
-                    
+
                     // Update UI
                     if (transcriptionText != null)
                     {
                         transcriptionText.text += $"\nAI: {data.content}";
                     }
                     break;
-                    
+
                 case "complete":
                     Debug.Log("Streaming complete");
                     OnStreamingComplete?.Invoke();
                     UpdateUI("Response complete");
                     break;
-                    
                 case "error":
                     Debug.LogError($"Streaming error: {data.content}");
                     OnError?.Invoke(data.content);
+                    break;
+                case "mood":
+                    Debug.Log($"Mood change: {data.content}");
+                    npc.ChangeMood(data.content.Split(' ')[0], int.Parse(data.content.Split(' ')[1]));
+                    break;
+                case "stage":
+                    Debug.Log($"Stage change: {data.content}");
+                    if (int.TryParse(data.content, out int stageValue))
+                    {
+                        switch (stageValue)
+                        {
+                            case 2:
+                                stageCheckboxes[0].isOn = true;
+                                break;
+                            case 3:
+                                stageCheckboxes[0].isOn = true;
+                                stageCheckboxes[1].isOn = true;
+                                break;
+                            case 4:
+                                stageCheckboxes[0].isOn = true;
+                                stageCheckboxes[1].isOn = true;
+                                stageCheckboxes[2].isOn = true;
+                                done = true;
+                                break;
+                            default:
+                                break;
+                        }
+                    }
                     break;
             }
         }

@@ -6477,7 +6477,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Notice changes in his routine
+  m_Text: Notice changes in Aaron's behaviour.
 --- !u!222 &465672850
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -13591,7 +13591,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Comfort him
+  m_Text: Check in on Aaron
 --- !u!222 &1081229352
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -16460,6 +16460,10 @@ MonoBehaviour:
   recordButton: {fileID: 1239931575}
   statusText: {fileID: 1664366294}
   transcriptionText: {fileID: 237077108}
+  stageCheckboxes:
+  - {fileID: 155704394}
+  - {fileID: 1467002280}
+  - {fileID: 1476153659}
 --- !u!114 &1264055275
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16472,7 +16476,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8bb6b1f293f77a34fac069fddcfbda8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  apiKey: 
+  apiKey: sk_0e929f4d2f26fd0b1e9ca10b22f364aa0bc414374b207718
   voiceId: vBKc2FfBKJfcZNyEt1n6
   audioSource: {fileID: 0}
   debugMode: 1
@@ -25892,7 +25896,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Discover any personal struggles
+  m_Text: Provide encouragement and support
 --- !u!222 &1605527660
 CanvasRenderer:
   m_ObjectHideFlags: 0

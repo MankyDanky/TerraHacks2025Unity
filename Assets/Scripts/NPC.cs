@@ -200,6 +200,7 @@ public class NPC : MonoBehaviour
 
     public void ChangeMood(string mood, float intensity)
     {
+        Debug.LogWarning("Mood change");
         int blendshapeIndex = -1;
         switch (mood.ToLower())
         {
@@ -234,8 +235,8 @@ public class NPC : MonoBehaviour
             yield return null;
         }
         headMeshRenderer.SetBlendShapeWeight(blendshapeIndex, targetIntensity);
-        // Hold for 1 second
-        yield return new WaitForSeconds(1f);
+        // Hold for 2 seconds
+        yield return new WaitForSeconds(2f);
         // Fade out
         while (current > 0.5f)
         {

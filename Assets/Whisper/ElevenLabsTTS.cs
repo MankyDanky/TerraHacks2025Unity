@@ -9,7 +9,7 @@ using System.Text;
 public class ElevenLabsRequest
 {
     public string text;
-    public string model_id = "eleven_monolingual_v1";
+    public string model_id = "eleven_flash_v2_5";
     public VoiceSettings voice_settings = new VoiceSettings();
 }
 
