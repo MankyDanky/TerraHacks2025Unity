@@ -42,8 +42,12 @@ public class ElevenLabsTTS : MonoBehaviour
     public System.Action<string> OnError;
     public System.Action<string> OnTextQueued;
 
+    NPC npc;
+
     void Start()
     {
+        npc = FindAnyObjectByType<NPC>();
+
         // Get API key from environment if not set in inspector
         if (string.IsNullOrEmpty(apiKey))
         {
@@ -201,17 +205,18 @@ public class ElevenLabsTTS : MonoBehaviour
                 // Convert audio data to AudioClip
                 byte[] audioData = webRequest.downloadHandler.data;
                 AudioClip audioClip = ConvertBytesToAudioClip(audioData);
-                
+
                 if (audioClip != null)
                 {
                     // Play the audio
                     audioSource.clip = audioClip;
                     audioSource.Play();
-                    
+
                     LogDebug($"Playing TTS audio, duration: {audioClip.length:F2}s");
-                    
+                    npc.StartTalking();
                     // Wait for audio to finish playing
                     yield return new WaitForSeconds(audioClip.length);
+                    npc.StopTalking();
                 }
                 else
                 {

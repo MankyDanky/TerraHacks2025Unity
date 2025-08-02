@@ -16454,12 +16454,7 @@ MonoBehaviour:
   useVoiceChat: 1
   sampleRate: 16000
   maxRecordingLength: 30
-  systemPrompt: You are a large, weathered rhinoceros living in the African savanna
-    grasslands. You are naturally wary and cautious around humans, but will reluctantly
-    share your knowledge about your habitat. Speak with a gruff, weary tone as if
-    you've seen too much environmental destruction. Keep responses conversational
-    and under 3 sentences. You know about droughts, poaching, habitat loss, climate
-    change, and how they affect rhinos and other savanna species.
+  systemPrompt: 
   useStreaming: 1
   ttsManager: {fileID: 1264055275}
   recordButton: {fileID: 1239931575}
@@ -16478,7 +16473,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   apiKey: 
-  voiceId: cPoqAvGWCPfCfyPMwe4z
+  voiceId: vBKc2FfBKJfcZNyEt1n6
   audioSource: {fileID: 0}
   debugMode: 1
   maxQueueSize: 10

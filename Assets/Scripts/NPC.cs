@@ -147,11 +147,11 @@ public class NPC : MonoBehaviour
     {
         float phonemeChangeTimer = 0f;
         float phonemeChangeDuration = 0.1f; // How often to pick new target phonemes
-        
+
         while (isTalking)
         {
             phonemeChangeTimer += Time.deltaTime;
-            
+
             // Pick new target phonemes periodically
             if (phonemeChangeTimer >= phonemeChangeDuration)
             {
@@ -159,18 +159,18 @@ public class NPC : MonoBehaviour
                 phonemeChangeTimer = 0f;
                 phonemeChangeDuration = Random.Range(0.08f, 0.25f); // Vary the timing
             }
-            
+
             // Smoothly interpolate current weights towards target weights
             for (int i = 0; i < PHONEME_COUNT; i++)
             {
                 currentPhonemeWeights[i] = Mathf.Lerp(currentPhonemeWeights[i], targetPhonemeWeights[i], Time.deltaTime * 8f);
                 headMeshRenderer.SetBlendShapeWeight(PHONEME_START_INDEX + i, currentPhonemeWeights[i]);
             }
-            
+
             yield return null; // Wait for next frame
         }
     }
-    
+
     private void SetNewTargetPhonemes()
     {
         // Reset all targets to 0 first
@@ -178,7 +178,7 @@ public class NPC : MonoBehaviour
         {
             targetPhonemeWeights[i] = 0f;
         }
-        
+
         // Set 1-3 random phonemes to random weights for more natural combinations
         int phonemesToActivate = Random.Range(1, 4);
         for (int i = 0; i < phonemesToActivate; i++)
@@ -196,5 +196,53 @@ public class NPC : MonoBehaviour
             targetPhonemeWeights[i] = 0f;
             headMeshRenderer.SetBlendShapeWeight(PHONEME_START_INDEX + i, 0f);
         }
+    }
+
+    public void ChangeMood(string mood, float intensity)
+    {
+        int blendshapeIndex = -1;
+        switch (mood.ToLower())
+        {
+            case "happy":
+                blendshapeIndex = 4;
+                break;
+            case "angry":
+                blendshapeIndex = 7;
+                break;
+            case "sad":
+                blendshapeIndex = 10;
+                break;
+            default:
+                return;
+        }
+        if (blendshapeIndex != -1 && headMeshRenderer != null)
+        {
+            StartCoroutine(MoodBlendshapeRoutine(blendshapeIndex, Mathf.Clamp(intensity, 0f, 100f)));
+        }
+    }
+
+    private System.Collections.IEnumerator MoodBlendshapeRoutine(int blendshapeIndex, float targetIntensity)
+    {
+        float current = headMeshRenderer.GetBlendShapeWeight(blendshapeIndex);
+        float fadeInSpeed = 10f; // Fast fade in
+        float fadeOutSpeed = 2f; // Slow fade out
+        // Fade in
+        while (Mathf.Abs(current - targetIntensity) > 0.5f)
+        {
+            current = Mathf.Lerp(current, targetIntensity, Time.deltaTime * fadeInSpeed);
+            headMeshRenderer.SetBlendShapeWeight(blendshapeIndex, current);
+            yield return null;
+        }
+        headMeshRenderer.SetBlendShapeWeight(blendshapeIndex, targetIntensity);
+        // Hold for 1 second
+        yield return new WaitForSeconds(1f);
+        // Fade out
+        while (current > 0.5f)
+        {
+            current = Mathf.Lerp(current, 0f, Time.deltaTime * fadeOutSpeed);
+            headMeshRenderer.SetBlendShapeWeight(blendshapeIndex, current);
+            yield return null;
+        }
+        headMeshRenderer.SetBlendShapeWeight(blendshapeIndex, 0f);
     }
 }

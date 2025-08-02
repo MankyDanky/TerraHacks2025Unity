@@ -73,7 +73,9 @@ public class WhisperManager : MonoBehaviour
     // Streaming events
     public System.Action<string> OnStreamingTextReceived;
     public System.Action OnStreamingComplete;
-    
+
+    NPC npc;
+
     void Start()
     {
         // Initialize microphone
@@ -87,20 +89,22 @@ public class WhisperManager : MonoBehaviour
             Debug.LogError("No microphone found!");
             return;
         }
-        
+
         // Setup UI
         if (recordButton != null)
         {
             recordButton.onClick.AddListener(ToggleRecording);
         }
-        
+
         // Test server connection
         StartCoroutine(TestServerConnection());
-        
+
         if (autoStartRecording)
         {
             StartRecording();
         }
+
+        npc = FindAnyObjectByType<NPC>();
     }
     
     public void ToggleRecording()
