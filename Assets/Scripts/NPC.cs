@@ -1,5 +1,7 @@
 using UnityEngine;
 using Oculus.Interaction;
+using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.XR;
 
 public class NPC : MonoBehaviour
 {
@@ -22,16 +24,28 @@ public class NPC : MonoBehaviour
 
     public bool talkHo;
 
+    [SerializeField] InputAction journalInputAction;
+    [SerializeField] GameObject journalCanvas;
+
     private void Awake()
     {
         interactableView = interactableViewSource as IInteractableView;
+        journalInputAction.performed += OnJournalInputActionPerformed;
+    }
+
+    void OnJournalInputActionPerformed(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            journalCanvas.SetActive(!journalCanvas.activeSelf);
+        }
     }
 
     private void Start()
     {
         whisperManager = FindAnyObjectByType<WhisperManager>();
         animator = GetComponent<Animator>();
-        
+
         // Initialize phoneme weight arrays
         currentPhonemeWeights = new float[PHONEME_COUNT];
         targetPhonemeWeights = new float[PHONEME_COUNT];
@@ -61,7 +75,6 @@ public class NPC : MonoBehaviour
                     turningLeft = true;
                 }
             }
-            Debug.Log($"Angle to player: {angle}, Turning Right: {turningRight}, Turning Left: {turningLeft}");
             animator.SetBool("TurningRight", turningRight);
             animator.SetBool("TurningLeft", turningLeft);
         }
@@ -79,6 +92,7 @@ public class NPC : MonoBehaviour
         {
             interactableView.WhenStateChanged += OnStateChanged;
         }
+        journalInputAction.Enable();
     }
 
     private void OnDisable()
@@ -87,6 +101,7 @@ public class NPC : MonoBehaviour
         {
             interactableView.WhenStateChanged -= OnStateChanged;
         }
+        journalInputAction.Disable();
     }
 
     private void OnStateChanged(InteractableStateChangeArgs args)

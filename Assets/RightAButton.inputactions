@@ -1,0 +1,34 @@
+{
+    "name": "RightAButton",
+    "maps": [
+        {
+            "name": "Action Map",
+            "id": "1d5e6186-c432-4ffd-9c05-7c4a13959123",
+            "actions": [
+                {
+                    "name": "RightAButton",
+                    "type": "Button",
+                    "id": "a9f429d0-1467-4c8d-8866-51523c71a88b",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "5126612e-1fed-4a47-a511-9a67068554b2",
+                    "path": "<XRController>{RightHand}/{SecondaryButton}",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RightAButton",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
