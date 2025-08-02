@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 51cf6b5bd87aec64daf9da188406803f
+ShaderIncludeImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 255279
+  packageName: Modular Stylized Character 1
+  packageVersion: 2.0.3
+  assetPath: Assets/Rukha93/ModularAnimeCharacter/Assets/Shaders/CustomLighting.hlsl
+  uploadId: 692775

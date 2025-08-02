@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 6e81bd36aebb4e440ad6715dc58e6fce
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 255279
+  packageName: Modular Stylized Character 1
+  packageVersion: 2.0.3
+  assetPath: Assets/Rukha93/ModularAnimeCharacter/Samples/Customization/Scripts/Utils/LerpOnScroll.cs
+  uploadId: 692775

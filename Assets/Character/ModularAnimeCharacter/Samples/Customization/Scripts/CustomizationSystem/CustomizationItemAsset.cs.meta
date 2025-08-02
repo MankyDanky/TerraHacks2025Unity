@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 9dbbe4c4aad0c09429ce37c5e344b1ed
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 255279
+  packageName: Modular Stylized Character 1
+  packageVersion: 2.0.3
+  assetPath: Assets/Rukha93/ModularAnimeCharacter/Samples/Customization/Scripts/CustomizationSystem/CustomizationItemAsset.cs
+  uploadId: 692775

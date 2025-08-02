@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: afb8a03996380044b94f7c04cc84c721
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 255279
+  packageName: Modular Stylized Character 1
+  packageVersion: 2.0.3
+  assetPath: Assets/Rukha93/ModularAnimeCharacter/Samples/Customization/Scripts/Utils/RotateOnDrag.cs
+  uploadId: 692775
