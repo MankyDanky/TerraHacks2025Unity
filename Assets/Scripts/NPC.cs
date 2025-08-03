@@ -14,6 +14,8 @@ public class NPC : MonoBehaviour
 
     [SerializeField] SkinnedMeshRenderer headMeshRenderer;
 
+    [SerializeField] float port = 5000f;
+
     // Talking animation variables
     private bool isTalking = false;
     private Coroutine talkingCoroutine;

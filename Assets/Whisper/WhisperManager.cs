@@ -373,11 +373,18 @@ public class WhisperManager : MonoBehaviour
                                 stageCheckboxes[0].isOn = true;
                                 stageCheckboxes[1].isOn = true;
                                 stageCheckboxes[2].isOn = true;
-                                done = true;
                                 break;
                             default:
                                 break;
                         }
+                    }
+                    break;
+                case "conversation_over":
+                    Debug.Log($"DECIDER FOR OVERNESS: {data.content}");
+                    if (data.content.ToLower() == "true")
+                    {
+                        done = true;
+                        StartCoroutine(SendEmail());
                     }
                     break;
             }
@@ -387,20 +394,11 @@ public class WhisperManager : MonoBehaviour
             Debug.LogError($"Failed to process streaming data: {e.Message}");
         }
     }
-    
-    private IEnumerator SendTranscribeRequest(AudioClip audioClip)
+
+    IEnumerator SendEmail()
     {
-        UpdateUI("Processing audio...");
-        
-        // Convert AudioClip to WAV bytes
-        byte[] audioData = AudioClipToWAV(audioClip);
-        
-        // Create form data
-        WWWForm form = new WWWForm();
-        form.AddBinaryData("file", audioData, "recording.wav", "audio/wav");
-        
-        // Send request to transcribe endpoint
-        using (UnityWebRequest request = UnityWebRequest.Post($"{serverUrl}/transcribe", form))
+        yield return new WaitForSeconds(1f); // Wait a bit before sending email
+        using (UnityWebRequest request = UnityWebRequest.Get($"{serverUrl}/get-score-and-email"))
         {
             request.timeout = 30; // 30 second timeout
             
@@ -408,17 +406,45 @@ public class WhisperManager : MonoBehaviour
             
             if (request.result == UnityWebRequest.Result.Success)
             {
+                Debug.Log("Email sent successfully");
+            }
+            else
+            {
+                Debug.LogError($"Failed to send email: {request.error}");
+            }
+        }
+    }
+    private IEnumerator SendTranscribeRequest(AudioClip audioClip)
+    {
+        UpdateUI("Processing audio...");
+
+        // Convert AudioClip to WAV bytes
+        byte[] audioData = AudioClipToWAV(audioClip);
+
+        // Create form data
+        WWWForm form = new WWWForm();
+        form.AddBinaryData("file", audioData, "recording.wav", "audio/wav");
+
+        // Send request to transcribe endpoint
+        using (UnityWebRequest request = UnityWebRequest.Post($"{serverUrl}/transcribe", form))
+        {
+            request.timeout = 30; // 30 second timeout
+
+            yield return request.SendWebRequest();
+
+            if (request.result == UnityWebRequest.Result.Success)
+            {
                 try
                 {
                     WhisperResponse response = JsonUtility.FromJson<WhisperResponse>(request.downloadHandler.text);
                     string transcription = response.text.Trim();
-                    
+
                     UpdateUI($"Transcription: {transcription}");
                     if (transcriptionText != null)
                     {
                         transcriptionText.text = transcription;
                     }
-                    
+
                     OnTranscriptionReceived?.Invoke(transcription);
                     Debug.Log($"Transcription received: {transcription}");
                 }
