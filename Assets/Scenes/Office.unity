@@ -2827,7 +2827,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dfbb39593f2b00949bb274459ed42bdc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  serverUrl: http://localhost:5000
+  serverUrl: http://localhost:5001
   autoStartRecording: 0
   useVoiceChat: 1
   sampleRate: 16000
